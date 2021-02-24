@@ -1,0 +1,53 @@
+
+#itemImage {
+	height: 200px;
+	width: 150px;
+}
+
+.display {
+	margin-top: 20px;
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+}
+
+table .itemList {
+
+   box-sizing: border-box;
+   text-indent: initial;
+   border-spacing: 2px;
+   border-color: grey;
+
+}
+
+#productName {
+	text-align: center;
+	font-weight: bold;
+}
+
+#productPrice {
+	text-align: center;
+}
+
+.itemList{
+	text-align: center;
+}
+
+.displayCategory ul li {
+	font-size: 20px;
+}
+#sql-code {
+	font-size: 20px;
+}
+
+#search-box {
+	width: 400px;
+}
+
+#panel1 {
+	border-width: 5px;
+}
+#panel2 {
+	border-width: 5px;
+}
+
