@@ -1,146 +1,146 @@
 <html>
 
 <head>
-	<meta charset="utf-8">
-	<meta content="IE=edge" http-equiv="X-UA-Compatible">
-	<meta content="width=device-width, initial-scale=1" name="viewport">
-	<script src="/static/assets/js/highlight.pack.js"></script>
-	<script>
-		hljs.initHighlightingOnLoad();
-	</script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	<link rel="stylesheet" href={{ url_for('static', filename='assets/css/home.css') }}>
-	<link rel="stylesheet" href={{ url_for('static', filename='assets/css/top.css') }}>
-	<title>SQL Injection Testing</title>
+  <meta charset="utf-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <script src="/static/assets/js/highlight.pack.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <link rel="stylesheet" href={{ url_for('static', filename='assets/css/home.css') }}>
+  <link rel="stylesheet" href={{ url_for('static', filename='assets/css/top.css') }}>
+  <title>SQL Injection Testing</title>
 </head>
 
 <body>
 
-	<link rel="stylesheet" href="/static/assets/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/static/assets/css/styles/default.css">
+  <link rel="stylesheet" href="/static/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/assets/css/styles/default.css">
 
-	<!-- WEB APPLICATION PANEL -->
-	<div class="container">
-		<h1 class="page-header">SQL Injection Demo</h1>
-		<div class="row">
-			<div class="col-md-12">
-				<div class="panel panel-default" id="panel1">
-					<div class="panel-heading"><label>Application Demo</label></div>
-					<div class="panel-body">
-						<!-- TOP OF WEB APPLICATION -->
-						<form class="form-inline" action="/searchBar">
-							<h2><a href="/">Online Bookstore</a></h2>
-							<div class="form-group  w-75">
-								<input class="form-control" id="search-box" name="searchQuery" type="search" placeholder="Search"
-									aria-label="Search">
-								<button class="btn btn-outline-success " id="search-button" value="Search" type="submit">Search</button>
-							</div>
-							<div class="form-group">
-								{% if not loggedIn %}
-								<div id="signInButton">
-									<a class="link text-right" href="/loginForm">Sign In</a>
-								</div>
-								{% else %}
-								<div class="dropdown">
-									<button class="dropbtn">Hello, <br>{{firstName}}</button>
-									<div class="dropdown-content">
-										<a href="/account/orders">Your orders</a>
-										<a href="/account/profile">Your profile</a>
-										<hr>
-										<a href="/logout">Sign Out</a>
-									</div>
-								</div>
-								{% endif %}
-								<div id="kart">
-									<a class="link" href="/cart">CART <span class="badge">{{nItems}}</span></a>
-								</div>
-							</div>
-						</form>
-
-
-						<!-- DISPLAY ITEMS -->
-						<div class="display">
-
-							<div class="displayCategory">
-								<h3>Shop by Category: </h3>
-								<ul>
-									{% for row in categoryData %}
-									<li><a href="/displayCategory?categoryId={{row[0]}}">{{row[1]}}</a></li>
-									{% endfor %}
-								</ul>
-							</div>
-
-							<div>
-								<h3>Best Sellers</h3>
-								{% for data in itemData%}
-								<table class="itemList" style="border-spacing: 20px; border-collapse: separate;">
-									<tr id="productName">
-										{% for row in data %}
-										<td>
-											{{row[1]}}
-										</td>
-										{% endfor %}
-									</tr>
-									<tr id="productImage">
-										{% for row in data %}
-										<td>
-											<a href="/productDescription?productId={{row[0]}}">
-												<img src={{ url_for('static', filename='assets/uploads/' + row[4]) }} id="itemImage" />
-											</a>
-										</td>
-										{% endfor %}
-									</tr>
-									<tr id="">
-										{%for row in data%}
-										<!-- <td><input type="text" size="10"/></td> -->
-										<td>
-											<a href="/productDescription?productId={{row[0]}}">More details</a>
-										</td>
-										{% endfor %}
-									</tr>
-
-								</table>
-								{% endfor %}
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<br>
+  <!-- WEB APPLICATION PANEL -->
+  <div class="container">
+    <h1 class="page-header">SQL Injection Demo</h1>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-default" id="panel1">
+          <div class="panel-heading"><label>Application Demo</label></div>
+          <div class="panel-body">
+            <!-- TOP OF WEB APPLICATION -->
+            <form class="form-inline" action="/searchBar">
+              <h2><a href="/">Online Bookstore</a></h2>
+              <div class="form-group  w-75">
+                <input class="form-control" id="search-box" name="searchQuery" type="search" placeholder="Search"
+                  aria-label="Search">
+                <button class="btn btn-outline-success " id="search-button" value="Search" type="submit">Search</button>
+              </div>
+              <div class="form-group">
+                {% if not loggedIn %}
+                <div id="signInButton">
+                  <a class="link text-right" href="/loginForm">Sign In</a>
+                </div>
+                {% else %}
+                <div class="dropdown">
+                  <button class="dropbtn">Hello, <br>{{firstName}}</button>
+                  <div class="dropdown-content">
+                    <a href="/account/orders">Your orders</a>
+                    <a href="/account/profile">Your profile</a>
+                    <hr>
+                    <a href="/logout">Sign Out</a>
+                  </div>
+                </div>
+                {% endif %}
+                <div id="kart">
+                  <a class="link" href="/cart">CART <span class="badge">{{nItems}}</span></a>
+                </div>
+              </div>
+            </form>
 
 
-	<!-- Executed SQL Query -->
-	<div class="container">
-		<div class="col-md-12" style="display: block;">
-			<div class="panel panel-default" id="panel2">
-				<div class="panel-heading"><span><strong>Executed SQL Query</strong></span></div>
-				<div class="panel-body">
-					<pre>
+            <!-- DISPLAY ITEMS -->
+            <div class="display">
+
+              <div class="displayCategory">
+                <h3>Shop by Category: </h3>
+                <ul>
+                  {% for row in categoryData %}
+                  <li><a href="/displayCategory?categoryId={{row[0]}}">{{row[1]}}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+
+              <div>
+                <h3>Best Sellers</h3>
+                {% for data in itemData%}
+                <table class="itemList" style="border-spacing: 20px; border-collapse: separate;">
+                  <tr id="productName">
+                    {% for row in data %}
+                    <td>
+                      {{row[1]}}
+                    </td>
+                    {% endfor %}
+                  </tr>
+                  <tr id="productImage">
+                    {% for row in data %}
+                    <td>
+                      <a href="/productDescription?productId={{row[0]}}">
+                        <img src={{ url_for('static', filename='assets/uploads/' + row[4]) }} id="itemImage" />
+                      </a>
+                    </td>
+                    {% endfor %}
+                  </tr>
+                  <tr id="">
+                    {%for row in data%}
+                    <!-- <td><input type="text" size="10"/></td> -->
+                    <td>
+                      <a href="/productDescription?productId={{row[0]}}">More details</a>
+                    </td>
+                    {% endfor %}
+                  </tr>
+
+                </table>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+
+
+  <!-- Executed SQL Query -->
+  <div class="container">
+    <div class="col-md-12" style="display: block;">
+      <div class="panel panel-default" id="panel2">
+        <div class="panel-heading"><span><strong>Executed SQL Query</strong></span></div>
+        <div class="panel-body">
+          <pre>
                             <code class="language-sql" id="sql-code"></code>
                         </pre>
-				</div>
-			</div>
-		</div>
-	</div>
-	</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
 
-	<script type="text/javascript">
-		var sql_query_search = "SELECT productID, name, price \nFROM products \nWHERE name LIKE '%{product}%'"
-		document.addEventListener("DOMContentLoaded", (event) => {});
+  <script type="text/javascript">
+    var sql_query_search = "SELECT productID, name, price \nFROM products \nWHERE name LIKE '%{product}%'"
+    document.addEventListener("DOMContentLoaded", (event) => {});
 
-		$("#search-box").keyup(function () {
-			updateSearchQuery()
-		});
+    $("#search-box").keyup(function () {
+      updateSearchQuery()
+    });
 
-		function updateSearchQuery() {
-			$("#sql-code").html(sql_query_search.replace("{product}", $("#search-box").val()));
-			document.querySelectorAll("pre code").forEach((block) => {
-				hljs.highlightBlock(block);
-			});
-		}
-	</script>
+    function updateSearchQuery() {
+      $("#sql-code").html(sql_query_search.replace("{product}", $("#search-box").val()));
+      document.querySelectorAll("pre code").forEach((block) => {
+        hljs.highlightBlock(block);
+      });
+    }
+  </script>
 
 </body>
 

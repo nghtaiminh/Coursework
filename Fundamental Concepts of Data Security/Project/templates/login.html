@@ -1,93 +1,93 @@
 <html>
 
 <head>
-	<meta charset="utf-8">
-	<meta content="IE=edge" http-equiv="X-UA-Compatible">
-	<meta content="width=device-width, initial-scale=1" name="viewport">
-	<script src="/static/assets/js/highlight.pack.js"></script>
-	<link rel="stylesheet" href={{ url_for('static', filename='assets/css/home.css') }}>
-	<script>hljs.initHighlightingOnLoad();</script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	<title>SQL Injection Testing</title>
+  <meta charset="utf-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <script src="/static/assets/js/highlight.pack.js"></script>
+  <link rel="stylesheet" href={{ url_for('static', filename='assets/css/home.css') }}>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <title>SQL Injection Testing</title>
 </head>
 
 <body>
-	<link rel="stylesheet" href="/static/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/assets/css/bootstrap.min.css">
 
 
-	<!-- WEB APPLICATION PANEL -->
-	<div class="container">
-		<h1 class="page-header">SQL Injection Demo</h1>
-		<div class="row">
-			<div class="col-md-12">
-				<div class="panel panel-default">
-					<div class="panel-heading"><label>Application Demo</label></div>
-					<div class="panel-body">
-						<h2><a href="/">Online Bookstore</a></h2>
-						<div class="bg-danger">
-							<h3>{{error}}</h3>
-						</div>
-						<div class="col-md-6">
-							<!-- LOGIN FORM -->
-							<form class="form" method="POST" action="/login_validation" id="login-form">
-								<div class="form-group">
-									<label for="email">Username</label>
-									<input class="form-control" id="email" type="text" name="email" placeholder="Enter your email">
-								</div>
-								<div class="form-group">
-									<label for="password">Password</label>
-									<input class="form-control" type="password" id="password" name="password" placeholder="Enter your password">
-								</div>
-								<div class="checkbox">
-									<label><input type="checkbox">Remember me</label>
-								</div>
-								<button type="submit" class="btn btn-primary" id="btn-submit">Log In</button>
-								<button class="btn btn-link">Forget Your Password?</button>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+  <!-- WEB APPLICATION PANEL -->
+  <div class="container">
+    <h1 class="page-header">SQL Injection Demo</h1>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-heading"><label>Application Demo</label></div>
+          <div class="panel-body">
+            <h2><a href="/">Online Bookstore</a></h2>
+            <div class="bg-danger">
+              <h3>{{error}}</h3>
+            </div>
+            <div class="col-md-6">
+              <!-- LOGIN FORM -->
+              <form class="form" method="POST" action="/login_validation" id="login-form">
+                <div class="form-group">
+                  <label for="email">Username</label>
+                  <input class="form-control" id="email" type="text" name="email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input class="form-control" type="password" id="password" name="password" placeholder="Enter your password">
+                </div>
+                <div class="checkbox">
+                  <label><input type="checkbox">Remember me</label>
+                </div>
+                <button type="submit" class="btn btn-primary" id="btn-submit">Log In</button>
+                <button class="btn btn-link">Forget Your Password?</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
-	<br>
+  <br>
 
-	<!-- Executed SQL Query -->
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12" style="display: block;">
-				<div class="panel panel-default" id="panel2">
-					<div class="panel-heading"><span><strong>Executed SQL Query</strong></span></div>
-					<div class="panel-body">
-						<pre>
+  <!-- Executed SQL Query -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12" style="display: block;">
+        <div class="panel panel-default" id="panel2">
+          <div class="panel-heading"><span><strong>Executed SQL Query</strong></span></div>
+          <div class="panel-body">
+            <pre>
               <code class="language-sql" id="sql-code"></code>
             </pre>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<script type="text/javascript">
-		var sql_query_login = "SELECT * \nFROM users \nWHERE email = '{username}' AND password = '{password}'"
-		document.addEventListener('DOMContentLoaded', (event) => {
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    var sql_query_login = "SELECT * \nFROM users \nWHERE email = '{username}' AND password = '{password}'"
+    document.addEventListener('DOMContentLoaded', (event) => {
 
-		});
-		$("#email").keyup(function () {
-			updateLoginQuery();
-		});
-		$("#password").keyup(function () {
-			updateLoginQuery();
-		});
+    });
+    $("#email").keyup(function () {
+      updateLoginQuery();
+    });
+    $("#password").keyup(function () {
+      updateLoginQuery();
+    });
 
-		function updateLoginQuery() {
-			$("#sql-code").html(sql_query_login.replace("{username}", $("#email").val()).replace("{password}", $("#password").val()));
-			document.querySelectorAll('pre code').forEach((block) => {
-				hljs.highlightBlock(block);
-			});
-		};
-	</script>
+    function updateLoginQuery() {
+      $("#sql-code").html(sql_query_login.replace("{username}", $("#email").val()).replace("{password}", $("#password").val()));
+      document.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightBlock(block);
+      });
+    };
+  </script>
 
 </body>
 
