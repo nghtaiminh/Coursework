@@ -128,13 +128,7 @@ def parse(data, n_col):
     Parse the fetched data from database array
     :param data: Result Set
     :param n_col: number of columns of the table
-    :return: array contain each record
-       e.g: [(, , , ...)]
-            [(, , , ...)]
-            [(, , , ...)]
-            .
-            .
-            .
+    :return: array contains each record
     """
     ans = []
     i = 0
