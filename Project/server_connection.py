@@ -1,56 +1,19 @@
 from flask import *
 import sqlite3
 from flask.helpers import url_for
+import os
 
 
 app = Flask(__name__)
-app.secret_key = '123456'
-
-        
-def getLoginDetails():
-    with sqlite3.connect('database.db') as conn:
-        cur = conn.cursor()
-        if 'email' not in session:
-            isLogin = False
-            firstName = ''
-            nItems = 0
-        else:
-            isLogin = True
-            cur.execute("SELECT userId, firstName FROM users WHERE email = '" + session['email'] + "'")
-            userId, firstName = cur.fetchone()
-            cur.execute("SELECT count(productId) FROM cart WHERE userId = " + str(userId))
-            nItems = cur.fetchone()[0]
-    conn.close()
-    return (isLogin, firstName, nItems)
-
-
-def parse(data, n_col):
-    ans = []
-    i = 0
-    while i < len(data):
-        curr = []
-        for j in range(n_col):
-            if i >= len(data):
-                break
-            curr.append(data[i])
-            i += 1
-        ans.append(curr)
-    return ans
-
-
-def validate(email, password):
-    con = sqlite3.connect('database.db')
-    cur = con.cursor()
-    cur.execute(
-        """SELECT * FROM users WHERE email='{}' AND password='{}';""".format(email, password))
-    data = cur.fetchone()
-    if data is None:
-        return False
-    return True
+app.secret_key = 'dev_key'
 
 
 @app.route('/')
 def root():
+    """
+    Display home page and handles save email in session
+    :return: None
+    """
     loggedIn, firstName, nItems = getLoginDetails()
     with sqlite3.connect('database.db') as conn:
         cur = conn.cursor()
@@ -58,7 +21,7 @@ def root():
         itemData = cur.fetchall()
         cur.execute('SELECT categoryId, name FROM categories')
         categoryData = cur.fetchall()
-    itemData = parse(itemData, 7)
+    itemData = parse(itemData, len(itemData))
     return render_template('home.html', itemData=itemData, loggedIn=loggedIn, firstName=firstName, nItems=nItems, categoryData=categoryData)
 
 
@@ -116,6 +79,9 @@ def productDescription():
 
 @app.route("/logout")
 def logout():
+    """
+    Logs the user out by popping email from session
+    """
     session.pop('email', None)
     return redirect(url_for('root'))
 
@@ -134,6 +100,68 @@ NOT IMPLEMENT YET
 @app.route("/orders")
 @app.route("/profile")
 """
+
+# UTILITIES
+def getLoginDetails():
+    """
+    Get personal info
+    :return: is login, first name, number of items in cart
+    """
+    with sqlite3.connect('database.db') as conn:
+        cur = conn.cursor()
+        if 'email' not in session:
+            isLogin = False
+            firstName = ''
+            nItems = 0
+        else:
+            isLogin = True
+            cur.execute("SELECT userId, firstName FROM users WHERE email = '" + session['email'] + "'")
+            userId, firstName = cur.fetchone()
+            cur.execute("SELECT count(productId) FROM cart WHERE userId = " + str(userId))
+            nItems = cur.fetchone()[0]
+    conn.close()
+    return (isLogin, firstName, nItems)
+
+
+def parse(data, n_col):
+    """
+    Parse the fetched data from database array
+    :param data: Result Set
+    :param n_col: number of columns of the table
+    :return: array contain each record
+       e.g: [(, , , ...)]
+            [(, , , ...)]
+            [(, , , ...)]
+            .
+            .
+            .
+    """
+    ans = []
+    i = 0
+    while i < len(data):
+        curr = []
+        for j in range(n_col):
+            if i >= len(data):
+                break
+            curr.append(data[i])
+            i += 1
+        ans.append(curr)
+    return ans
+
+
+def validate(email, password):
+    """
+    :return: True if the credentials is matched with the database, False otherwise.
+    """
+    con = sqlite3.connect('database.db')
+    cur = con.cursor()
+    cur.execute(
+        """SELECT * FROM users WHERE email='{}' AND password='{}';""".format(email, password))
+    data = cur.fetchone()
+    if data is None:
+        return False
+    return True
+
 
 if __name__ == '__main__':
     app.run(debug=True)
