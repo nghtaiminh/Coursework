@@ -6,7 +6,7 @@ A simple web application to demonstrate basic level SQL Injection attack manuall
 - Flask, Python, SQLite
 
 ### Some payloads for the attack
-```
+
 ##### Login Form
 - Blind SQLi: Perform in the log-in form with the Boolean-based SQLi technique to force the query always return TRUE in order to bypass authentication.
 ```
